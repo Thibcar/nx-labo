@@ -1,0 +1,219 @@
+{
+  "version": 1,
+  "projects": {
+    "thibcar-lab": {
+      "projectType": "application",
+      "schematics": {},
+      "root": "apps/thibcar-lab",
+      "sourceRoot": "apps/thibcar-lab/src",
+      "prefix": "nx-labo",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:browser",
+          "options": {
+            "outputPath": "dist/apps/thibcar-lab",
+            "index": "apps/thibcar-lab/src/index.html",
+            "main": "apps/thibcar-lab/src/main.ts",
+            "polyfills": "apps/thibcar-lab/src/polyfills.ts",
+            "tsConfig": "apps/thibcar-lab/tsconfig.app.json",
+            "aot": true,
+            "assets": [
+              "apps/thibcar-lab/src/favicon.ico",
+              "apps/thibcar-lab/src/assets"
+            ],
+            "styles": ["apps/thibcar-lab/src/styles.css"],
+            "scripts": []
+          },
+          "configurations": {
+            "production": {
+              "fileReplacements": [
+                {
+                  "replace": "apps/thibcar-lab/src/environments/environment.ts",
+                  "with": "apps/thibcar-lab/src/environments/environment.prod.ts"
+                }
+              ],
+              "optimization": true,
+              "outputHashing": "all",
+              "sourceMap": false,
+              "extractCss": true,
+              "namedChunks": false,
+              "extractLicenses": true,
+              "vendorChunk": false,
+              "buildOptimizer": true,
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "2mb",
+                  "maximumError": "5mb"
+                },
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "6kb",
+                  "maximumError": "10kb"
+                }
+              ]
+            }
+          }
+        },
+        "serve": {
+          "builder": "@angular-devkit/build-angular:dev-server",
+          "options": {
+            "browserTarget": "thibcar-lab:build",
+            "proxyConfig": "apps/thibcar-lab/proxy.conf.json"
+          },
+          "configurations": {
+            "production": {
+              "browserTarget": "thibcar-lab:build:production"
+            }
+          }
+        },
+        "extract-i18n": {
+          "builder": "@angular-devkit/build-angular:extract-i18n",
+          "options": {
+            "browserTarget": "thibcar-lab:build"
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "apps/thibcar-lab/tsconfig.app.json",
+              "apps/thibcar-lab/tsconfig.spec.json"
+            ],
+            "exclude": ["**/node_modules/**", "!apps/thibcar-lab/**/*"]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "options": {
+            "jestConfig": "apps/thibcar-lab/jest.config.js",
+            "tsConfig": "apps/thibcar-lab/tsconfig.spec.json",
+            "passWithNoTests": true,
+            "setupFile": "apps/thibcar-lab/src/test-setup.ts"
+          }
+        }
+      }
+    },
+    "thibcar-lab-e2e": {
+      "root": "apps/thibcar-lab-e2e",
+      "sourceRoot": "apps/thibcar-lab-e2e/src",
+      "projectType": "application",
+      "architect": {
+        "e2e": {
+          "builder": "@nrwl/cypress:cypress",
+          "options": {
+            "cypressConfig": "apps/thibcar-lab-e2e/cypress.json",
+            "tsConfig": "apps/thibcar-lab-e2e/tsconfig.e2e.json",
+            "devServerTarget": "thibcar-lab:serve"
+          },
+          "configurations": {
+            "production": {
+              "devServerTarget": "thibcar-lab:serve:production"
+            }
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": ["apps/thibcar-lab-e2e/tsconfig.e2e.json"],
+            "exclude": ["**/node_modules/**", "!apps/thibcar-lab-e2e/**/*"]
+          }
+        }
+      }
+    },
+    "api": {
+      "root": "apps/api",
+      "sourceRoot": "apps/api/src",
+      "projectType": "application",
+      "prefix": "api",
+      "schematics": {},
+      "architect": {
+        "build": {
+          "builder": "@nrwl/node:build",
+          "options": {
+            "outputPath": "dist/apps/api",
+            "main": "apps/api/src/main.ts",
+            "tsConfig": "apps/api/tsconfig.app.json",
+            "assets": ["apps/api/src/assets"]
+          },
+          "configurations": {
+            "production": {
+              "optimization": true,
+              "extractLicenses": true,
+              "inspect": false,
+              "fileReplacements": [
+                {
+                  "replace": "apps/api/src/environments/environment.ts",
+                  "with": "apps/api/src/environments/environment.prod.ts"
+                }
+              ]
+            }
+          }
+        },
+        "serve": {
+          "builder": "@nrwl/node:execute",
+          "options": {
+            "buildTarget": "api:build"
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "apps/api/tsconfig.app.json",
+              "apps/api/tsconfig.spec.json"
+            ],
+            "exclude": ["**/node_modules/**", "!apps/api/**/*"]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "options": {
+            "jestConfig": "apps/api/jest.config.js",
+            "tsConfig": "apps/api/tsconfig.spec.json",
+            "passWithNoTests": true
+          }
+        }
+      }
+    },
+    "api-interfaces": {
+      "root": "libs/api-interfaces",
+      "sourceRoot": "libs/api-interfaces/src",
+      "projectType": "library",
+      "schematics": {},
+      "architect": {
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "libs/api-interfaces/tsconfig.lib.json",
+              "libs/api-interfaces/tsconfig.spec.json"
+            ],
+            "exclude": ["**/node_modules/**", "!libs/api-interfaces/**/*"]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "options": {
+            "jestConfig": "libs/api-interfaces/jest.config.js",
+            "tsConfig": "libs/api-interfaces/tsconfig.spec.json",
+            "passWithNoTests": true
+          }
+        }
+      }
+    }
+  },
+  "cli": {
+    "defaultCollection": "@nrwl/angular"
+  },
+  "schematics": {
+    "@nrwl/angular:application": {
+      "unitTestRunner": "jest",
+      "e2eTestRunner": "cypress"
+    },
+    "@nrwl/angular:library": {
+      "unitTestRunner": "jest"
+    }
+  },
+  "defaultProject": "thibcar-lab"
+}
